@@ -1,26 +1,276 @@
 @import "tailwindcss";
 
+/* ============================================================
+   Cognit — "Ink & Lime"
+   Monochrome warm-neutral base + one saturated accent (lime).
+   One accent hue, locked. Success green is a documented
+   WhatsApp platform-affordance exception only.
+   ============================================================ */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Dark is the default theme */
+  --bg: #0b0b0c;          /* warm near-black, never pure #000 */
+  --surface: #141416;
+  --surface-2: #1d1d21;
+  --border: rgba(255, 255, 255, 0.09);
+  --text: #f3f2ec;        /* warm off-white, never pure #fff */
+  --muted: #9a99a2;
+
+  /* Accent: text-safe value for the current theme (labels, icons) */
+  --accent: #c6f24d;
+  /* Accent fill: vivid lime for filled CTAs, identical in both modes.
+     Always paired with --on-accent ink text. */
+  --accent-fill: #c6f24d;
+  --on-accent: #111112;
+  --primary: var(--accent);
+
+  --success: #25d366;     /* WhatsApp affordance only */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --nav-height: 68px;
+
+  /* Shape lock: buttons pill, cards 16px, inputs 12px */
+  --radius-card: 16px;
+  --radius-input: 12px;
+}
+
+[data-theme="light"] {
+  --bg: #f5f4ee;          /* warm paper */
+  --surface: #ffffff;
+  --surface-2: #eceae1;
+  --border: rgba(17, 17, 20, 0.1);
+  --text: #16161a;
+  --muted: #57575e;
+
+  /* Deep olive-lime so the accent stays legible as text on paper */
+  --accent: #4c7a0d;
+  --accent-fill: #c6f24d; /* vivid fill kept for brand recognizability */
+  --on-accent: #111112;
+  --primary: var(--accent);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-border: var(--border);
+  --color-primary: var(--primary);
+  --color-accent: var(--accent);
+  --color-accent-fill: var(--accent-fill);
+  --color-on-accent: var(--on-accent);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-success: var(--success);
+  --font-heading: var(--font-space-grotesk);
+  --font-body: var(--font-jakarta);
+  --font-mono: var(--font-jetbrains-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Affordance: native <button> has no pointer cursor by default.
+   Every interactive control should signal it is clickable. */
+button:not(:disabled),
+[role="button"]:not([aria-disabled="true"]),
+summary,
+label[for] {
+  cursor: pointer;
+}
+
+button:disabled,
+[aria-disabled="true"] {
+  cursor: not-allowed;
+}
+
+html {
+  scroll-behavior: auto;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-jakarta), system-ui, sans-serif;
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.font-mono {
+  font-family: var(--font-jetbrains-mono), ui-monospace, monospace;
+}
+
+/* Small technical label: mono, tracked, for service tags / meta.
+   Rationed per eyebrow rules — not stacked above every heading. */
+.mono-label {
+  font-family: var(--font-jetbrains-mono), ui-monospace, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+::selection {
+  background: color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  z-index: 10000;
+  padding: 0.75rem 1rem;
+  background: var(--primary);
+  color: white;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
+
+.dot-grid {
+  background-image: radial-gradient(
+    circle at 1px 1px,
+    color-mix(in srgb, var(--text) 5%, transparent) 1px,
+    transparent 0
+  );
+  background-size: 24px 24px;
+}
+
+.section-padding {
+  padding-block: clamp(4rem, 10vw, 8rem);
+}
+
+.container-main {
+  width: min(1200px, 100% - 40px);
+  margin-inline: auto;
+}
+
+.heading-xl {
+  font-family: var(--font-space-grotesk), system-ui, sans-serif;
+  font-size: clamp(2.05rem, 4vw, 3.1rem);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.07;
+}
+
+.heading-lg {
+  font-family: var(--font-space-grotesk), system-ui, sans-serif;
+  font-size: clamp(2rem, 4.5vw, 3.5rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.glass-nav {
+  background: color-mix(in srgb, var(--bg) 75%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.5rem;
+  border-radius: 999px;
+  background: var(--accent-fill);
+  color: var(--on-accent);
+  font-weight: 600;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: transform 200ms var(--ease-out), filter 200ms var(--ease-out);
+}
+
+.btn-primary:hover {
+  filter: brightness(1.06);
+}
+
+.btn-primary:active {
+  transform: translateY(1px) scale(0.98);
+}
+
+/* Icons inside the lime CTA inherit the ink color for AA contrast */
+.btn-primary svg {
+  color: var(--on-accent);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.5rem;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text);
+  font-weight: 500;
+  text-decoration: none;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: transform 200ms var(--ease-out), background 200ms var(--ease-out);
+}
+
+.btn-secondary:hover {
+  background: var(--surface);
+}
+
+.btn-secondary:active {
+  transform: scale(0.98);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.font-heading {
+  font-family: var(--font-space-grotesk), system-ui, sans-serif;
+}
+
+.process-step.is-active {
+  opacity: 1;
+}
+
+.process-step:not(.is-active) {
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

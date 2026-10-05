@@ -1,0 +1,8 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#0B0F1A"/>
+  <circle cx="980" cy="120" r="180" fill="#22D3EE" opacity="0.12"/>
+  <circle cx="200" cy="520" r="240" fill="#3B82F6" opacity="0.1"/>
+  <text x="80" y="300" fill="#E6EAF2" font-family="system-ui,sans-serif" font-size="96" font-weight="700" letter-spacing="-2">cognit</text>
+  <circle cx="520" cy="248" r="14" fill="#22D3EE"/>
+  <text x="80" y="380" fill="#8A94A8" font-family="system-ui,sans-serif" font-size="36">Made to think. Built to work.</text>
+</svg>

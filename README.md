@@ -1,36 +1,85 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Cognit Portfolio Website
 
-## Getting Started
+Production-ready single-page portfolio for **Cognit** — websites, mobile apps, AI automation, and WhatsApp automation.
 
-First, run the development server:
+## Quick start
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Edit content (no component changes needed)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+All editable copy and links live in `data/`:
 
-## Learn More
+| File | What to edit |
+|---|---|
+| `data/site.ts` | Name, location, WhatsApp, email, social links, form key, trust stats |
+| `data/services.ts` | Service cards, timelines, featured package |
+| `data/projects.ts` | Portfolio case studies |
+| `data/faq.ts` | FAQ questions and answers |
 
-To learn more about Next.js, take a look at the following resources:
+Look for `// REPLACE:` and `// CONFIRM WITH OWNER` comments in code.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Things to replace before going live
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- [ ] **Owner name** in `data/site.ts`
+- [ ] **City / location** in `data/site.ts`
+- [ ] **WhatsApp number** and prefilled link in `data/site.ts`
+- [ ] **Social media URLs** (Instagram, YouTube, LinkedIn, optional GitHub)
+- [ ] **Web3Forms access key** in `data/site.ts` — sign up at [web3forms.com](https://web3forms.com)
+- [ ] **Real projects** in `data/projects.ts` (replace sample projects)
+- [ ] **Trust strip numbers** in `data/site.ts` (`trustStats`) — only use real numbers
+- [ ] **Pricing** — currently shows "Get a free quote"; add tiers in `components/Pricing.tsx` if needed
+- [ ] **FAQ pricing/timeline answers** marked `CONFIRM WITH OWNER`
+- [ ] **OG share image** — replace `public/og-image.svg` with a 1200×630 PNG for best social previews
 
-## Deploy on Vercel
+Testimonials section is **hidden** until you add real quotes (do not use fake testimonials).
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Deploy on Vercel (free)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Push this folder to a GitHub repository.
+2. Go to [vercel.com](https://vercel.com) → **Add New Project** → import the repo.
+3. Framework preset: **Next.js**. Click **Deploy**.
+4. In Vercel → **Settings → Domains**, add `cognit.co.in` and `www.cognit.co.in`.
+
+### GoDaddy DNS records (typical Vercel setup)
+
+| Type | Name | Value |
+|---|---|---|
+| `A` | `@` | `76.76.21.21` |
+| `CNAME` | `www` | `cname.vercel-dns.com` |
+
+Vercel may show different values in the domain setup screen — **use the exact records Vercel displays**.
+
+5. Wait for DNS propagation (minutes to 48 hours).
+6. SSL (https) is issued automatically — do not buy a paid certificate.
+7. In Vercel, redirect `www` → root (or root → `www`, pick one).
+8. Submit `https://cognit.co.in/sitemap.xml` in [Google Search Console](https://search.google.com/search-console).
+
+### Deploy on Cloudflare Pages (alternative)
+
+1. Connect repo in Cloudflare Pages.
+2. Build command: `npm run build`
+3. Output directory: `.next` is handled by Cloudflare's Next.js adapter, or use `@cloudflare/next-on-pages` if needed.
+4. Add custom domain and DNS as Cloudflare instructs.
+
+## Tech stack
+
+- Next.js (App Router) + TypeScript
+- Tailwind CSS v4 with CSS variable design tokens
+- Framer Motion, Lenis, GSAP + ScrollTrigger
+- lucide-react icons
+- Space Grotesk + Inter via `next/font`
+
+## Scripts
+
+```bash
+npm run dev      # local development
+npm run build    # production build
+npm run start    # serve production build
+npm run lint     # ESLint
+```
