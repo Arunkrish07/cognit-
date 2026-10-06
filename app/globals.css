@@ -1,27 +1,35 @@
 @import "tailwindcss";
 
 /* ============================================================
-   Cognit — "Ink & Lime"
-   Monochrome warm-neutral base + one saturated accent (lime).
-   One accent hue, locked. Success green is a documented
-   WhatsApp platform-affordance exception only.
+   Cognit — "Neon Noir" (light)
+   Off-white + white neutral surfaces, with purple/pink used only
+   as accents (never as surfaces). Single light theme; no dark
+   mode. Success green is a documented WhatsApp platform-
+   affordance exception only.
+
+   Palette: #F4F4F4 Off White · #101015 Deep Black ·
+   #843362 Purple · #5D2742 Deep Purple · #FE3D79 Hot Pink ·
+   #FF3A74 Neon Pink
    ============================================================ */
 
 :root {
-  /* Dark is the default theme */
-  --bg: #0b0b0c;          /* warm near-black, never pure #000 */
-  --surface: #141416;
-  --surface-2: #1d1d21;
-  --border: rgba(255, 255, 255, 0.09);
-  --text: #f3f2ec;        /* warm off-white, never pure #fff */
-  --muted: #9a99a2;
+  color-scheme: light;
 
-  /* Accent: text-safe value for the current theme (labels, icons) */
-  --accent: #c6f24d;
-  /* Accent fill: vivid lime for filled CTAs, identical in both modes.
-     Always paired with --on-accent ink text. */
-  --accent-fill: #c6f24d;
-  --on-accent: #111112;
+  /* Light, neutral surfaces — no purple tint on backgrounds. */
+  --bg: #f4f4f4;          /* off white */
+  --surface: #ffffff;
+  --surface-2: #ececec;   /* neutral light-gray lift */
+  --border: rgba(16, 16, 21, 0.1);
+  --text: #101015;        /* deep black */
+  --muted: #5c5560;       /* near-neutral gray, AA on off white */
+
+  /* Accent (labels, icons, links): Purple reads cleanly on white.
+     Neon pink fails AA as text on light, so it is reserved for the
+     CTA fill below. */
+  --accent: #843362;
+  /* Accent fill: hot pink CTA with deep-black ink (passes AA). */
+  --accent-fill: #fe3d79;
+  --on-accent: #101015;
   --primary: var(--accent);
 
   --success: #25d366;     /* WhatsApp affordance only */
@@ -31,21 +39,6 @@
   /* Shape lock: buttons pill, cards 16px, inputs 12px */
   --radius-card: 16px;
   --radius-input: 12px;
-}
-
-[data-theme="light"] {
-  --bg: #f5f4ee;          /* warm paper */
-  --surface: #ffffff;
-  --surface-2: #eceae1;
-  --border: rgba(17, 17, 20, 0.1);
-  --text: #16161a;
-  --muted: #57575e;
-
-  /* Deep olive-lime so the accent stays legible as text on paper */
-  --accent: #4c7a0d;
-  --accent-fill: #c6f24d; /* vivid fill kept for brand recognizability */
-  --on-accent: #111112;
-  --primary: var(--accent);
 }
 
 @theme inline {
