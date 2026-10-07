@@ -40,8 +40,22 @@ export function Problem() {
   }, [reduced]);
 
   return (
-    <section className="section-padding" aria-labelledby="problem-heading">
-      <div className="container-main">
+    <section
+      className="relative overflow-hidden section-padding"
+      aria-labelledby="problem-heading"
+    >
+      <div
+        aria-hidden
+        className="glow"
+        style={{
+          width: "32rem",
+          height: "32rem",
+          top: "20%",
+          right: "-10rem",
+          background: "radial-gradient(circle, rgba(255,138,61,0.16), transparent 68%)",
+        }}
+      />
+      <div className="container-main relative">
         <motion.h2
           id="problem-heading"
           className="heading-lg text-text"
@@ -72,7 +86,7 @@ export function Problem() {
         </div>
 
         <motion.p
-          className="mt-12 text-2xl font-heading font-bold text-primary md:text-3xl"
+          className="text-warm mt-12 font-heading text-3xl font-bold md:text-5xl"
           initial={reduced ? false : { opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}

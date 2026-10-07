@@ -30,12 +30,13 @@ export function HeroBackground() {
     <StructureFlowCollection
       variant="expanse-field"
       mode="light"
-      // hue is a degree rotation (clamped -180..180) over the Expanse Field's
-      // base blue (~233°). +90° lands it at ~323°, matching the "Neon Noir"
-      // palette purples (#5D2742 / #843362 ≈ 327-330°).
-      hue={90}
+      // Shader colorMid is a horizontal gradient blue(left) -> pink(right);
+      // our tall steps sit on the pink end. -40deg nudges that pink (~330deg)
+      // toward magenta/violet (~290deg) so the hero echoes the site's
+      // pink -> dark-purple brand gradient.
+      hue={-40}
       saturation={1.1}
-      brightness={1.0}
+      brightness={0.97}
       className="absolute inset-0 h-full w-full"
     />
   );

@@ -129,7 +129,7 @@ export function ContactModal() {
           />
 
           <motion.div
-            className="relative z-10 max-h-[90dvh] w-full max-w-lg overflow-y-auto rounded-2xl border border-border bg-surface p-6 shadow-[0_32px_80px_-24px_rgba(0,0,0,0.65)] sm:p-8"
+            className="relative z-10 max-h-[90dvh] w-full max-w-lg overflow-y-auto rounded-3xl border border-border bg-bg-2 p-6 shadow-[0_32px_80px_-24px_rgba(0,0,0,0.75)] sm:p-8"
             initial={reduced ? { opacity: 0 } : { opacity: 0, scale: 0.95, y: 24 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={reduced ? { opacity: 0 } : { opacity: 0, scale: 0.96, y: 16 }}

@@ -61,7 +61,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#F4F4F4",
+  themeColor: "#0a0807",
 };
 
 const jsonLd = {
@@ -90,7 +90,7 @@ export default function RootLayout({
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: `document.documentElement.setAttribute("data-theme","light");`,
+            __html: `document.documentElement.setAttribute("data-theme","dark");`,
           }}
         />
         <script
@@ -102,6 +102,7 @@ export default function RootLayout({
         className={`${jakarta.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} font-body antialiased`}
         suppressHydrationWarning
       >
+        <div className="page-bg" aria-hidden />
         <ThemeProvider>
           <ContactModalProvider>
             <a href="#main" className="skip-link">
