@@ -17,9 +17,24 @@ export function CTABand({
   const { openModal } = useContactModal();
 
   return (
-    <section className="section-padding" aria-labelledby="cta-heading">
-      <div className="container-main">
-        <Reveal className="rounded-2xl border border-border bg-surface p-8 text-center md:p-14">
+    <section
+      className="relative overflow-hidden section-padding"
+      aria-labelledby="cta-heading"
+    >
+      <div
+        aria-hidden
+        className="glow"
+        style={{
+          width: "40rem",
+          height: "28rem",
+          left: "50%",
+          top: "50%",
+          transform: "translate(-50%, -50%)",
+          background: "radial-gradient(circle, rgba(255,138,61,0.22), transparent 66%)",
+        }}
+      />
+      <div className="container-main relative">
+        <Reveal className="card-glass overflow-hidden p-8 text-center md:p-16">
           <h2
             id="cta-heading"
             className="heading-lg mx-auto max-w-2xl text-text"

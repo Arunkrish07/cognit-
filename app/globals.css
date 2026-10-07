@@ -1,60 +1,65 @@
 @import "tailwindcss";
 
 /* ============================================================
-   Cognit — "Ink & Lime"
-   Monochrome warm-neutral base + one saturated accent (lime).
-   One accent hue, locked. Success green is a documented
-   WhatsApp platform-affordance exception only.
+   Cognit — "Warm Noir" (dark luxury)
+   Near-black warm base with cinematic orange / amber / peach
+   atmospheric lighting. Cream surfaces and cream pill buttons as
+   premium accents. Large editorial typography. Success green is a
+   documented WhatsApp platform-affordance exception only.
+
+   Palette: #0A0807 Warm Black · #15100D Charcoal ·
+   #F6F0E6 Cream · #FF9A4D Orange · #FFC078 Amber · #FFB487 Peach
    ============================================================ */
 
 :root {
-  /* Dark is the default theme */
-  --bg: #0b0b0c;          /* warm near-black, never pure #000 */
-  --surface: #141416;
-  --surface-2: #1d1d21;
-  --border: rgba(255, 255, 255, 0.09);
-  --text: #f3f2ec;        /* warm off-white, never pure #fff */
-  --muted: #9a99a2;
+  color-scheme: dark;
 
-  /* Accent: text-safe value for the current theme (labels, icons) */
-  --accent: #c6f24d;
-  /* Accent fill: vivid lime for filled CTAs, identical in both modes.
-     Always paired with --on-accent ink text. */
-  --accent-fill: #c6f24d;
-  --on-accent: #111112;
+  /* Warm near-black base + deep charcoal lift. */
+  --bg: #0a0807;
+  --bg-2: #15100d;
+  /* Dark glass surfaces (translucent cream over the warm base). */
+  --surface: rgba(246, 240, 230, 0.045);
+  --surface-2: rgba(246, 240, 230, 0.08);
+  /* Cream solid surface — for premium light cards. */
+  --surface-cream: #f1e9da;
+  --border: rgba(246, 240, 230, 0.12);
+  --text: #f6f0e6;        /* cream */
+  --muted: #a79d8e;       /* warm gray, AA on warm black */
+
+  /* Accent (labels, icons, links): warm orange + amber/peach. */
+  --accent: #ff9a4d;
+  --accent-2: #ffc078;
+  --accent-peach: #ffb487;
+  /* Primary CTA: cream pill with dark ink (premium, high contrast). */
+  --accent-fill: #f1e9da;
+  --on-accent: #1a120c;
+  --on-cream: #1a120c;
   --primary: var(--accent);
 
   --success: #25d366;     /* WhatsApp affordance only */
+
+  /* Warm highlight gradient — used on accent text and glows. */
+  --grad-warm: linear-gradient(120deg, #ffd9a8 0%, #ff9a4d 48%, #ff6b3d 100%);
+
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-  --nav-height: 68px;
+  --nav-height: 72px;
 
-  /* Shape lock: buttons pill, cards 16px, inputs 12px */
-  --radius-card: 16px;
-  --radius-input: 12px;
-}
-
-[data-theme="light"] {
-  --bg: #f5f4ee;          /* warm paper */
-  --surface: #ffffff;
-  --surface-2: #eceae1;
-  --border: rgba(17, 17, 20, 0.1);
-  --text: #16161a;
-  --muted: #57575e;
-
-  /* Deep olive-lime so the accent stays legible as text on paper */
-  --accent: #4c7a0d;
-  --accent-fill: #c6f24d; /* vivid fill kept for brand recognizability */
-  --on-accent: #111112;
-  --primary: var(--accent);
+  /* Shape lock: buttons pill, cards 24px, inputs 14px */
+  --radius-card: 24px;
+  --radius-input: 14px;
 }
 
 @theme inline {
   --color-bg: var(--bg);
+  --color-bg-2: var(--bg-2);
   --color-surface: var(--surface);
   --color-surface-2: var(--surface-2);
+  --color-surface-cream: var(--surface-cream);
   --color-border: var(--border);
   --color-primary: var(--primary);
   --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
+  --color-accent-peach: var(--accent-peach);
   --color-accent-fill: var(--accent-fill);
   --color-on-accent: var(--on-accent);
   --color-text: var(--text);
@@ -108,6 +113,7 @@ html.lenis body {
 
 body {
   margin: 0;
+  position: relative;      /* containing block for .page-bg */
   background: var(--bg);
   color: var(--text);
   font-family: var(--font-jakarta), system-ui, sans-serif;
@@ -165,40 +171,123 @@ body {
   padding-block: clamp(4rem, 10vw, 8rem);
 }
 
+/* Cinematic image backdrop behind the WHOLE site. Fixed to the viewport
+   so the warm gradient photo stays consistent as you scroll, under a dark
+   overlay that keeps text readable across every section. */
+.page-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -50;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(10, 8, 7, 0.4), rgba(10, 8, 7, 0.52)),
+    url("https://images.unsplash.com/photo-1614851099511-773084f6911d?q=80&w=2070&auto=format&fit=crop");
+  background-size: cover, cover;
+  background-position: center, center;
+  background-repeat: no-repeat, no-repeat;
+}
+
+/* Fine film grain over the atmosphere for a cinematic, non-flat feel. */
+.page-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.5;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");
+}
+
+/* Soft decorative glow blob — place inside a section for local light. */
+.glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Decorative glowing warm sphere (hero orb). Visual only. */
+.orb {
+  width: clamp(12rem, 22vw, 19rem);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 36% 30%,
+    #fff6ea 0%,
+    #ffd3a1 20%,
+    #ff8f45 54%,
+    #d84f1d 100%
+  );
+  box-shadow:
+    0 0 70px rgba(255, 138, 61, 0.5),
+    0 30px 90px -20px rgba(255, 110, 55, 0.55),
+    inset 0 -22px 55px rgba(120, 30, 0, 0.45),
+    inset 0 14px 34px rgba(255, 255, 255, 0.45);
+}
+
+@keyframes float-slow {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(0, -18px, 0) scale(1.04); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .float-slow { animation: float-slow 9s var(--ease-out) infinite; }
+}
+
 .container-main {
   width: min(1200px, 100% - 40px);
   margin-inline: auto;
 }
 
+/* Hero display — large editorial, tight leading. */
 .heading-xl {
   font-family: var(--font-space-grotesk), system-ui, sans-serif;
-  font-size: clamp(2.05rem, 4vw, 3.1rem);
+  font-size: clamp(2.9rem, 8.5vw, 6.5rem);
   font-weight: 700;
-  letter-spacing: -0.025em;
-  line-height: 1.07;
+  letter-spacing: -0.035em;
+  line-height: 0.96;
 }
 
 .heading-lg {
   font-family: var(--font-space-grotesk), system-ui, sans-serif;
-  font-size: clamp(2rem, 4.5vw, 3.5rem);
+  font-size: clamp(2.1rem, 5.5vw, 4.25rem);
   font-weight: 700;
-  letter-spacing: -0.02em;
-  line-height: 1.1;
+  letter-spacing: -0.03em;
+  line-height: 1.03;
+}
+
+/* Amber uppercase eyebrow/kicker for editorial labels. */
+.kicker {
+  font-family: var(--font-space-grotesk), system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-size: clamp(0.8rem, 1.4vw, 1rem);
+  color: var(--accent-2);
+}
+
+/* Warm-gradient text fill for emphasis words. */
+.text-warm {
+  background: var(--grad-warm);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 .glass-nav {
-  background: color-mix(in srgb, var(--bg) 75%, transparent);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: color-mix(in srgb, var(--bg) 62%, transparent);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
   border-bottom: 1px solid var(--border);
 }
 
+/* Primary CTA: premium cream pill with a soft warm glow. */
 .btn-primary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  padding: 0.875rem 1.5rem;
+  padding: 0.95rem 1.65rem;
   border-radius: 999px;
   background: var(--accent-fill);
   color: var(--on-accent);
@@ -206,44 +295,90 @@ body {
   text-decoration: none;
   border: none;
   cursor: pointer;
-  transition: transform 200ms var(--ease-out), filter 200ms var(--ease-out);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.5) inset,
+    0 10px 30px -10px rgba(255, 138, 61, 0.45);
+  transition: transform 220ms var(--ease-out), box-shadow 220ms var(--ease-out),
+    filter 220ms var(--ease-out);
 }
 
 .btn-primary:hover {
-  filter: brightness(1.06);
+  transform: translateY(-2px);
+  filter: brightness(1.03);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.6) inset,
+    0 18px 44px -12px rgba(255, 138, 61, 0.6);
 }
 
 .btn-primary:active {
-  transform: translateY(1px) scale(0.98);
+  transform: translateY(0) scale(0.98);
 }
 
-/* Icons inside the lime CTA inherit the ink color for AA contrast */
+/* Icons inside the cream CTA inherit the dark ink for contrast. */
 .btn-primary svg {
   color: var(--on-accent);
 }
 
+/* Secondary CTA: glass pill on the dark atmosphere. */
 .btn-secondary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  padding: 0.875rem 1.5rem;
+  padding: 0.95rem 1.65rem;
   border-radius: 999px;
-  background: transparent;
+  background: var(--surface);
   color: var(--text);
   font-weight: 500;
   text-decoration: none;
   border: 1px solid var(--border);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   cursor: pointer;
-  transition: transform 200ms var(--ease-out), background 200ms var(--ease-out);
+  transition: transform 220ms var(--ease-out), background 220ms var(--ease-out),
+    border-color 220ms var(--ease-out);
 }
 
 .btn-secondary:hover {
-  background: var(--surface);
+  background: var(--surface-2);
+  border-color: color-mix(in srgb, var(--accent) 50%, transparent);
+  transform: translateY(-2px);
 }
 
 .btn-secondary:active {
   transform: scale(0.98);
+}
+
+/* Premium dark-glass card. */
+.card-glass {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  backdrop-filter: blur(16px) saturate(130%);
+  -webkit-backdrop-filter: blur(16px) saturate(130%);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.06) inset,
+    0 30px 70px -40px rgba(0, 0, 0, 0.8);
+  transition: transform 300ms var(--ease-out), border-color 300ms var(--ease-out),
+    box-shadow 300ms var(--ease-out);
+}
+
+.card-glass:hover {
+  transform: translateY(-4px);
+  border-color: color-mix(in srgb, var(--accent) 35%, var(--border));
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.08) inset,
+    0 40px 90px -45px rgba(255, 138, 61, 0.35);
+}
+
+/* Premium cream card (light surface on the dark atmosphere). */
+.card-cream {
+  position: relative;
+  background: var(--surface-cream);
+  color: var(--on-cream);
+  border-radius: var(--radius-card);
+  box-shadow: 0 40px 90px -45px rgba(0, 0, 0, 0.75);
 }
 
 :focus-visible {

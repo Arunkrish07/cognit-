@@ -61,10 +61,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: dark)", color: "#0B0B0C" },
-    { media: "(prefers-color-scheme: light)", color: "#F5F4EE" },
-  ],
+  themeColor: "#0a0807",
 };
 
 const jsonLd = {
@@ -93,7 +90,7 @@ export default function RootLayout({
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem("cognit-theme")||"dark";document.documentElement.setAttribute("data-theme",t)}catch(e){document.documentElement.setAttribute("data-theme","dark")}})();`,
+            __html: `document.documentElement.setAttribute("data-theme","dark");`,
           }}
         />
         <script
@@ -105,6 +102,7 @@ export default function RootLayout({
         className={`${jakarta.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} font-body antialiased`}
         suppressHydrationWarning
       >
+        <div className="page-bg" aria-hidden />
         <ThemeProvider>
           <ContactModalProvider>
             <a href="#main" className="skip-link">

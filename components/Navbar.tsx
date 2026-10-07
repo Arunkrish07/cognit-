@@ -11,7 +11,6 @@ import {
 } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { Logo } from "./Logo";
-import { ThemeToggle } from "./ThemeToggle";
 import { useContactModal } from "./ContactModalProvider";
 import { navLinks, site } from "@/data/site";
 import { cn } from "@/lib/utils";
@@ -105,7 +104,6 @@ export function Navbar() {
             </ul>
 
             <div className="hidden items-center gap-3 md:flex">
-              <ThemeToggle />
               <a
                 href={site.whatsappPrefill}
                 target="_blank"
@@ -117,7 +115,6 @@ export function Navbar() {
             </div>
 
             <div className="flex items-center gap-2 md:hidden">
-              <ThemeToggle />
               <button
                 type="button"
                 className="flex h-11 w-11 items-center justify-center rounded-full border border-border bg-surface"

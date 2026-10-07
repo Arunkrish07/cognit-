@@ -2,11 +2,9 @@
 
 import { useRef } from "react";
 import Link from "next/link";
-import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { MessageCircle } from "lucide-react";
-import { PhoneChat } from "./PhoneChat";
 import { site } from "@/data/site";
-import { images } from "@/data/images";
 
 const headlineLines = [
   "Websites, apps and AI",
@@ -15,61 +13,49 @@ const headlineLines = [
 
 export function Hero() {
   const reduced = useReducedMotion();
-  const sectionRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start start", "end start"],
-  });
-  const phoneY = useTransform(scrollYProgress, [0, 1], [0, 40]);
-  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "16%"]);
 
   return (
     <section
-      ref={sectionRef}
       id="hero"
-      className="relative min-h-[100dvh] overflow-hidden pt-[var(--nav-height)]"
+      className="relative flex min-h-[100dvh] flex-col justify-end overflow-hidden pt-[var(--nav-height)]"
       aria-labelledby="hero-heading"
     >
-      {/* Parallax background image, dark-tinted for text contrast. */}
-      <motion.div
+      {/* The page-wide image backdrop (.page-bg) shows through here; this
+          adds a little extra shade behind the copy for headline contrast. */}
+      <div
         aria-hidden
-        className="absolute inset-0 -z-10"
-        style={{ y: reduced ? 0 : bgY }}
-      >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={images.heroBackground}
-          alt=""
-          className="h-[120%] w-full object-cover opacity-40"
-          loading="eager"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-bg/70 via-bg/85 to-bg" />
-        <div className="absolute inset-0 dot-grid opacity-60" />
-      </motion.div>
+        className="absolute inset-0 -z-10 bg-gradient-to-t from-black/55 via-transparent to-transparent"
+      />
 
-      <div className="container-main section-padding grid items-center gap-12 lg:grid-cols-[1.25fr_0.75fr] lg:gap-16">
-        <div>
-          <h1 id="hero-heading" className="heading-xl text-text">
+      <div className="container-main pb-14 pt-28">
+        <div className="max-w-4xl">
+          <h1 id="hero-heading" className="heading-xl text-white">
             {headlineLines.map((line, i) => (
-              <span key={i} className="block overflow-hidden">
+              <span key={i} className="block overflow-hidden pb-[0.08em]">
                 <motion.span
                   className="block"
                   initial={reduced ? false : { y: "110%" }}
                   animate={{ y: 0 }}
                   transition={{
                     delay: 0.15 + i * 0.08,
-                    duration: 0.65,
+                    duration: 0.7,
                     ease: [0.22, 1, 0.36, 1],
                   }}
                 >
-                  {line}
+                  {i === 0 ? (
+                    <>
+                      Websites, apps and <span className="text-warm">AI</span>
+                    </>
+                  ) : (
+                    line
+                  )}
                 </motion.span>
               </span>
             ))}
           </h1>
 
           <motion.p
-            className="mt-6 max-w-xl text-lg text-muted"
+            className="mt-8 max-w-xl text-lg leading-relaxed text-white/80 md:text-xl"
             initial={reduced ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.45, duration: 0.5 }}
@@ -79,7 +65,7 @@ export function Hero() {
           </motion.p>
 
           <motion.div
-            className="mt-8 flex flex-wrap gap-4"
+            className="mt-10 flex flex-wrap gap-4"
             initial={reduced ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.55, duration: 0.5 }}
@@ -93,37 +79,8 @@ export function Hero() {
             </Link>
           </motion.div>
         </div>
-
-        <motion.div style={{ y: reduced ? 0 : phoneY }}>
-          <PhoneChat />
-        </motion.div>
       </div>
-
-      <TrustStrip />
     </section>
-  );
-}
-
-function TrustStrip() {
-  const items = site.trustStats
-    ? [
-        `${site.trustStats.projects}+ projects delivered`,
-        `${site.trustStats.clients}+ happy clients`,
-        "Fast delivery",
-        "Post-launch support",
-      ]
-    : ["Fast delivery", "Post-launch support", "Clear communication", "One person, full stack"];
-
-  return (
-    <div className="border-t border-border bg-surface/50">
-      <ul className="container-main flex flex-wrap items-center justify-center gap-y-3 py-5 text-sm text-muted md:divide-x md:divide-border">
-        {items.map((item) => (
-          <li key={item} className="px-5 first:pl-0">
-            {item}
-          </li>
-        ))}
-      </ul>
-    </div>
   );
 }
 

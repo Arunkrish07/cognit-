@@ -25,11 +25,14 @@ export const site = {
   year: new Date().getFullYear(),
 } as const;
 
+// Landing-page anchors: the home page renders every section inline, so the
+// nav scrolls to them. The standalone routes (/services, /work, …) still
+// exist for direct access and SEO.
 export const navLinks = [
-  { label: "Services", href: "/services" },
-  { label: "Work", href: "/work" },
-  { label: "Process", href: "/process" },
-  { label: "FAQ", href: "/faq" },
+  { label: "Services", href: "#services" },
+  { label: "Work", href: "#work" },
+  { label: "Process", href: "#process" },
+  { label: "FAQ", href: "#faq" },
 ] as const;
 
 export const whyPoints = [
