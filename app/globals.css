@@ -68,6 +68,8 @@
   --font-heading: var(--font-space-grotesk);
   --font-body: var(--font-jakarta);
   --font-mono: var(--font-jetbrains-mono);
+  --font-sans: var(--font-jakarta), system-ui, sans-serif;
+  --font-instrument-serif: var(--font-instrument-serif), Georgia, serif;
 }
 
 *,
@@ -399,6 +401,38 @@ body {
   pointer-events: none;
 }
 
+/* ============================================================
+   Responsive hero banner — serif display + staggered entrance.
+   Used by components/ui/responsive-hero-banner.tsx.
+   ============================================================ */
+.font-instrument-serif {
+  font-family: var(--font-instrument-serif), Georgia, serif;
+}
+
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-slide-in-1,
+.animate-fade-slide-in-2,
+.animate-fade-slide-in-3,
+.animate-fade-slide-in-4 {
+  opacity: 0;
+  animation: fadeSlideIn 0.7s var(--ease-out) forwards;
+}
+
+.animate-fade-slide-in-1 { animation-delay: 0.1s; }
+.animate-fade-slide-in-2 { animation-delay: 0.25s; }
+.animate-fade-slide-in-3 { animation-delay: 0.4s; }
+.animate-fade-slide-in-4 { animation-delay: 0.55s; }
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -407,5 +441,12 @@ body {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+
+  .animate-fade-slide-in-1,
+  .animate-fade-slide-in-2,
+  .animate-fade-slide-in-3,
+  .animate-fade-slide-in-4 {
+    opacity: 1;
   }
 }
