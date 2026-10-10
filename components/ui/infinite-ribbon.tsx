@@ -32,8 +32,7 @@ const ribbonAnimationStyles = `
 
 @media (prefers-reduced-motion: reduce) {
   .iconiq-infinite-ribbon-track {
-    animation-duration: 1ms !important;
-    animation-iteration-count: 1 !important;
+    animation-play-state: paused !important;
   }
 }
 `;
