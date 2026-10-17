@@ -1,5 +1,11 @@
 import type { Metadata, Viewport } from "next";
-import { Plus_Jakarta_Sans, Space_Grotesk, JetBrains_Mono } from "next/font/google";
+import {
+  Plus_Jakarta_Sans,
+  Space_Grotesk,
+  JetBrains_Mono,
+  Instrument_Serif,
+  Outfit,
+} from "next/font/google";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { ContactModalProvider } from "@/components/ContactModalProvider";
 import { ContactModal } from "@/components/ContactModal";
@@ -29,6 +35,23 @@ const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   weight: ["400", "500"],
   variable: "--font-jetbrains-mono",
+  display: "swap",
+});
+
+const instrumentSerif = Instrument_Serif({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-instrument-serif",
+  display: "swap",
+});
+
+// Used by the intro logo animation (Preloader). The animation measures glyph
+// geometry at runtime, so the font must be present before it plays — we gate
+// playback on document.fonts.ready.
+const outfit = Outfit({
+  subsets: ["latin"],
+  weight: "600",
+  variable: "--font-outfit",
   display: "swap",
 });
 
@@ -99,7 +122,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${jakarta.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} font-body antialiased`}
+        className={`${jakarta.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} ${instrumentSerif.variable} ${outfit.variable} font-body antialiased`}
         suppressHydrationWarning
       >
         <div className="page-bg" aria-hidden />

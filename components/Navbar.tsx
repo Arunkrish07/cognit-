@@ -51,6 +51,10 @@ export function Navbar() {
   const isActive = (href: string) =>
     href === "/" ? pathname === "/" : pathname.startsWith(href);
 
+  // The home page's hero banner renders its own pill nav, so suppress the
+  // global navbar there to avoid a double navigation bar.
+  if (pathname === "/") return null;
+
   const openContact = () => {
     closeMenu();
     openModal();

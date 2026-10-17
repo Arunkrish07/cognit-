@@ -33,19 +33,25 @@ const barBase =
  * point, so they cross through the middle in an X. Each ribbon is wrapped in a
  * positioning/rotation element; the InfiniteRibbon inside only runs the
  * marquee (rotation={0}), so the rotation is never overwritten by the scroll
- * transform. The section clips the rotated ends, and the body never scrolls
- * horizontally.
+ * transform.
+ *
+ * The section reserves generous vertical padding so the full height of the
+ * rotated ribbons fits, and clips ONLY the horizontal axis (overflow-x: clip,
+ * overflow-y stays visible) so the rotated ends are never cut off. The body's
+ * own overflow-x: hidden is the backstop against horizontal page scroll.
  */
 export function CrossingRibbon() {
   return (
     <section
       aria-label="Our service commitments"
-      className="relative w-full overflow-hidden h-[150px] sm:h-[190px] md:h-[220px]"
+      className="relative z-10 w-full overflow-x-clip py-16 sm:py-24 md:py-48"
     >
-      {/* Ribbon A — black / orange, scrolls right → left, angled up. */}
-      <div className="absolute left-1/2 top-1/2 z-10 w-[170%] -translate-x-1/2 -translate-y-1/2 rotate-[5deg] sm:w-[155%] md:w-[150%] md:rotate-[6deg]">
+      {/* Ribbon A — black / orange, scrolls right → left, angled up.
+          Sits below the orange ribbon (z-1). pointer-events-none so the ends
+          that bleed over the hero don't swallow clicks on its buttons. */}
+      <div className="pointer-events-none absolute left-1/2 top-1/2 z-[1] w-[170%] -translate-x-1/2 -translate-y-1/2 rotate-[5deg] sm:w-[155%] md:w-[150%] md:rotate-[6deg]">
         <InfiniteRibbon
-          duration={32}
+          duration={65}
           rotation={0}
           repeat={6}
           className={`${barBase} border-white/10 bg-[#090706] text-accent shadow-[0_14px_44px_-18px_rgba(0,0,0,0.95)]`}
@@ -54,10 +60,11 @@ export function CrossingRibbon() {
         </InfiniteRibbon>
       </div>
 
-      {/* Ribbon B — orange / black, scrolls left → right, angled down. */}
-      <div className="absolute left-1/2 top-1/2 z-20 w-[170%] -translate-x-1/2 -translate-y-1/2 -rotate-[5deg] sm:w-[155%] md:w-[150%] md:-rotate-[6deg]">
+      {/* Ribbon B — orange / black, scrolls left → right, angled down.
+          Rendered on top of the dark ribbon (z-2). */}
+      <div className="pointer-events-none absolute left-1/2 top-1/2 z-[2] w-[170%] -translate-x-1/2 -translate-y-1/2 -rotate-[5deg] sm:w-[155%] md:w-[150%] md:-rotate-[6deg]">
         <InfiniteRibbon
-          duration={32}
+          duration={50}
           reverse
           rotation={0}
           repeat={6}

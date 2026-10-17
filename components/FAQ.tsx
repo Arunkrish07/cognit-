@@ -1,14 +1,23 @@
 "use client";
 
-import { useState } from "react";
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import { ChevronDown } from "lucide-react";
+import { useRef, useState } from "react";
+import {
+  motion,
+  AnimatePresence,
+  useInView,
+  useReducedMotion,
+} from "framer-motion";
+import { ChevronDown, Sparkles } from "lucide-react";
 import { faqItems } from "@/data/faq";
+import { StreamingText } from "@/components/ui/streaming-text";
 import { cn } from "@/lib/utils";
 
 export function FAQ({ hideHeading = false }: { hideHeading?: boolean }) {
   const reduced = useReducedMotion();
   const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const listRef = useRef<HTMLUListElement>(null);
+  // Once the list is on screen, the open answer starts to type itself out.
+  const inView = useInView(listRef, { once: true, margin: "-10% 0px" });
 
   return (
     <section
@@ -31,36 +40,63 @@ export function FAQ({ hideHeading = false }: { hideHeading?: boolean }) {
           </motion.h2>
         )}
 
-        <ul className="mt-2 divide-y divide-border">
+        <ul ref={listRef} className="mt-8 space-y-3">
           {faqItems.map((item, i) => {
             const isOpen = openIndex === i;
             return (
-              <li key={item.question}>
+              <li
+                key={item.question}
+                className={cn(
+                  "overflow-hidden rounded-2xl border bg-surface transition-colors duration-300",
+                  isOpen
+                    ? "border-accent/40"
+                    : "border-border hover:border-accent/25"
+                )}
+              >
                 <button
                   type="button"
-                  className="flex w-full items-center justify-between gap-4 py-5 text-left"
+                  className="flex w-full items-center justify-between gap-4 px-5 py-5 text-left sm:px-6"
                   onClick={() => setOpenIndex(isOpen ? null : i)}
                   aria-expanded={isOpen}
                 >
-                  <span className="font-medium text-text">{item.question}</span>
+                  <span className="flex items-center gap-3 font-medium text-text">
+                    <Sparkles
+                      aria-hidden
+                      size={16}
+                      strokeWidth={2}
+                      className={cn(
+                        "shrink-0 transition-colors duration-300",
+                        isOpen ? "text-accent" : "text-muted"
+                      )}
+                    />
+                    {item.question}
+                  </span>
                   <ChevronDown
                     size={20}
+                    aria-hidden
                     className={cn(
-                      "shrink-0 text-muted transition-transform duration-250",
-                      isOpen && "rotate-180"
+                      "shrink-0 text-muted transition-transform duration-300",
+                      isOpen && "rotate-180 text-accent"
                     )}
                   />
                 </button>
+
                 <AnimatePresence initial={false}>
                   {isOpen && (
                     <motion.div
+                      key="content"
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: "auto", opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+                      transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                       className="overflow-hidden"
                     >
-                      <p className="pb-5 text-muted">{item.answer}</p>
+                      <StreamingText
+                        text={item.answer}
+                        play={inView}
+                        speed={14}
+                        className="px-5 pb-5 leading-relaxed text-muted sm:px-6"
+                      />
                     </motion.div>
                   )}
                 </AnimatePresence>
