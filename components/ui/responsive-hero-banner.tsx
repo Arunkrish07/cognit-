@@ -229,6 +229,14 @@ const ResponsiveHeroBanner: React.FC<ResponsiveHeroBannerProps> = ({
                 <Play className="w-4 h-4" />
               </Link>
             </div>
+
+            {/* Brand mark anchoring the foot of the hero */}
+            <div className="mt-16 flex flex-col items-center gap-3 animate-fade-slide-in-5">
+              <Logo className="h-7 w-auto text-white/90" />
+              <span className="text-xs font-medium uppercase tracking-[0.25em] text-white/50 font-sans">
+                {site.tagline}
+              </span>
+            </div>
           </div>
         </div>
       </div>

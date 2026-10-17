@@ -16,4 +16,7 @@ export const images = {
     "https://picsum.photos/seed/cognit-process-collab/1400/900?grayscale",
   faqBanner:
     "https://picsum.photos/seed/cognit-faq-answers/1400/900?grayscale",
+
+  // Lead-in image for the "How we work together" timeline. 1920x1200.
+  processTimeline: "/process-timeline.jpg",
 } as const;
